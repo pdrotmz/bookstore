@@ -3,6 +3,8 @@ package dev.pdrotmz.bookstore.models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +27,17 @@ public class BookModel implements Serializable {
     @JoinColumn(name = "publisher_id") // Especifica qual vai ser a chave estrangeira para conexão com TB_PUBLISHER
     private PublisherModel publisher;
 
+
+    @ManyToMany
+    // Definindo tabela auxiliar e mapeando
+    @JoinTable(
+            // nome da tabela de relação
+            name = "tb_book_author",
+            // Criando variável para definir as chaves estrangeiras de ambos os lados
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private Set<AuthorModel> authors = new HashSet<>();
 
     // Getters e Setters
     public UUID getId() {
@@ -49,5 +62,13 @@ public class BookModel implements Serializable {
 
     public void setPublisher(PublisherModel publisher) {
         this.publisher = publisher;
+    }
+
+    public Set<AuthorModel> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<AuthorModel> authors) {
+        this.authors = authors;
     }
 }
