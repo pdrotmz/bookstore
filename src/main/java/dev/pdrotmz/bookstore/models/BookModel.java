@@ -19,6 +19,13 @@ public class BookModel implements Serializable {
     @Column(nullable = false, unique = true) // (não aceita nulo, titulo único)
     private String title;
 
+
+    // Criando relação entre book e publisher
+    @ManyToOne
+    @JoinColumn(name = "publisher_id") // Especifica qual vai ser a chave estrangeira para conexão com TB_PUBLISHER
+    private PublisherModel publisher;
+
+
     // Getters e Setters
     public UUID getId() {
         return id;
@@ -34,5 +41,13 @@ public class BookModel implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public PublisherModel getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(PublisherModel publisher) {
+        this.publisher = publisher;
     }
 }
